@@ -91,6 +91,8 @@ public class Shipment extends AbstractJob {
 
         public Object userData;
 
+        public double maxTimeInVehicle = Double.MAX_VALUE;
+
         /**
          * Returns new instance of this builder.
          *
@@ -303,6 +305,18 @@ public class Shipment extends AbstractJob {
             this.priority = priority;
             return this;
         }
+
+        /**
+         * Sets maximal time the job can be in vehicle.
+         *
+         * @param maxTimeInVehicle
+         * @return
+         */
+        public Builder setMaxTimeInVehicle(double maxTimeInVehicle){
+            if(maxTimeInVehicle < 0) throw new IllegalArgumentException("maxTimeInVehicle should be positive");
+            this.maxTimeInVehicle = maxTimeInVehicle;
+            return this;
+        }
     }
 
     private final String id;
@@ -331,6 +345,8 @@ public class Shipment extends AbstractJob {
 
     private final int priority;
 
+    private final double maxTimeInVehicle;
+
     Shipment(Builder builder) {
         setUserData(builder.userData);
         this.id = builder.id;
@@ -346,6 +362,7 @@ public class Shipment extends AbstractJob {
         this.deliveryTimeWindows = builder.deliveryTimeWindows;
         this.pickupTimeWindows = builder.pickupTimeWindows;
         this.priority = builder.priority;
+        this.maxTimeInVehicle = builder.maxTimeInVehicle;
     }
 
     @Override
@@ -463,5 +480,10 @@ public class Shipment extends AbstractJob {
     @Override
     public int getPriority() {
         return priority;
+    }
+
+    @Override
+    public double getMaxTimeInVehicle() {
+        return maxTimeInVehicle;
     }
 }
